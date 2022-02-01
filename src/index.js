@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 //import App from './App';
@@ -10,28 +10,72 @@ import { FaStar } from "react-icons/fa";
 //console.log(third);
 const createArray = (length) => [...Array(length)];
 
-function Star({ selected = false, onSelect }) {
-  return <FaStar color={selected ? "red" : "gray"} 
-  onClick={onSelect}/>;
-}
+// function Star({ selected = false, onSelect }) {
+//   return <FaStar color={selected ? "red" : "gray"}
+//   onClick={onSelect}/>;
+// }
 
-function StarRating({ totalStars = 5 }) {
-  const [selectedStars, setSelectedStars] = useState(0);
-  return (
-    <> 
-    {createArray(totalStars).map((n, i) => 
-    <Star key={i} selected={selectedStars > i} 
-      onSelect={() => setSelectedStars(i+1) } 
-    />
-    )}
-    <p>{selectedStars} of {totalStars}</p>
-    </>
-  )
- 
-}
+// function StarRating({ totalStars = 5 }) {
+//   const [selectedStars, setSelectedStars] = useState(0);
+//   return (
+//     <>
+//     {createArray(totalStars).map((n, i) =>
+//     <Star key={i} selected={selectedStars > i}
+//       onSelect={() => setSelectedStars(i+1) }
+//     />
+//     )}
+//     <p>{selectedStars} of {totalStars}</p>
+//     </>
+//   )
+
+// }
 
 function App() {
-  return <StarRating totalStars={5} />;
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("https://api.github.com/users")
+      .then((response) => response.json())
+      .then(setData);
+  }, []); // [] means run only once
+
+  if (data) {
+    return (
+      <div>
+      <ul>
+        {data.map((user) => (
+          <li key={user.id}>{user.login}</li>
+        ))}
+      </ul>
+      <button onClick={() => setData([])}>Remove Data</button>
+      </div>
+    );
+  }
+
+  return <p>No users</p>;
+
+  // const [name, setName] = useState("Jan");
+  // const [admin, setAdmin] = useState(false);
+
+  // useEffect(() => {
+  //   document.title = `Celebrate ${name}`;
+  //   console.log(`Celebrate ${name}`);
+  // }, [name]);
+
+  // useEffect(() => {
+
+  //   console.log(`The user is: ${admin ? "admin" : "not admin"}`);
+  // }, [admin]);
+
+  // return (
+  //   <section>
+  //     <p>Contratulations {name}!</p>
+  //     <button onClick={() => setName("Adam")}>Change winner </button>
+  //     <p>{admin ? "Logged in" : "not logged in"}</p>
+  //     <button onClick={() => setAdmin(true)}>Logged in</button>
+  //   </section>
+  //)
+  // return <StarRating totalStars={5} />;
 
   // const [status, setStatus] = useState("Not Delivered");
 
