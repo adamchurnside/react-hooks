@@ -31,28 +31,34 @@ const createArray = (length) => [...Array(length)];
 // }
 
 function App() {
-  const [data, setData] = useState([]);
+  const [number, setNumber] = useReducer(
+    (number, newNumber) => number + newNumber, 0
+  );
+  console.log(number);
+  return <h1 onClick={() => setNumber(1)}>{number}</h1>;
 
-  useEffect(() => {
-    fetch("https://api.github.com/users")
-      .then((response) => response.json())
-      .then(setData);
-  }, []); // [] means run only once
+  // const [data, setData] = useState([]);
 
-  if (data) {
-    return (
-      <div>
-      <ul>
-        {data.map((user) => (
-          <li key={user.id}>{user.login}</li>
-        ))}
-      </ul>
-      <button onClick={() => setData([])}>Remove Data</button>
-      </div>
-    );
-  }
+  // useEffect(() => {
+  //   fetch("https://api.github.com/users")
+  //     .then((response) => response.json())
+  //     .then(setData);
+  // }, []); // [] means run only once
 
-  return <p>No users</p>;
+  // if (data) {
+  //   return (
+  //     <div>
+  //     <ul>
+  //       {data.map((user) => (
+  //         <li key={user.id}>{user.login}</li>
+  //       ))}
+  //     </ul>
+  //     <button onClick={() => setData([])}>Remove Data</button>
+  //     </div>
+  //   );
+  // }
+
+  // return <p>No users</p>;
 
   // const [name, setName] = useState("Jan");
   // const [admin, setAdmin] = useState(false);
