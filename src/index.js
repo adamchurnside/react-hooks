@@ -10,8 +10,8 @@ function App() {
   const submit = (e) => {
     e.preventDefault();
     alert(`${sound} sounds like ${color}`);
-    setSound = "";
-    setColor = "#000000";
+    setSound("");
+    setColor("#000000");
   };
 
   return (
