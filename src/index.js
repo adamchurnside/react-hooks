@@ -8,7 +8,7 @@ import { FaStar } from "react-icons/fa";
 
 //console.log(people[2]);
 //console.log(third);
-const createArray = (length) => [...Array(length)];
+//const createArray = (length) => [...Array(length)];
 
 // function Star({ selected = false, onSelect }) {
 //   return <FaStar color={selected ? "red" : "gray"}
@@ -30,21 +30,49 @@ const createArray = (length) => [...Array(length)];
 
 // }
 
+const initialState = {
+  message: "hi",
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "yell":
+      return {
+        message: `HEY! I JUST SAID ${state.message}!`,
+      };
+    case "whisper":
+      return {
+        message: `excuse me I just said ${state.message}`,
+      };
+    default:
+      return {
+        message: "No message sent",
+      };
+  }
+}
+
 function App() {
-  const [number, setNumber] = useReducer(
-    (number, newNumber) => number + newNumber, 0
-  );
-  console.log(number);
-  return <h1 onClick={() => setNumber(1)}>{number}</h1>;
+  const [state, dispatch] = useReducer(reducer, initialState);
 
+  return (
+    <>
+    <p>Message: {state.message}</p>
+    <button onClick={() => dispatch({type: "yell"})}>YELL</button>
+    <button onClick={() => dispatch({type: "whisper"})}>Whisper</button>
+    </>
+  )
+
+  // const [number, setNumber] = useReducer(
+  //   (number, newNumber) => number + newNumber, 0
+  // );
+  // console.log(number);
+  // return <h1 onClick={() => setNumber(1)}>{number}</h1>;
   // const [data, setData] = useState([]);
-
   // useEffect(() => {
   //   fetch("https://api.github.com/users")
   //     .then((response) => response.json())
   //     .then(setData);
   // }, []); // [] means run only once
-
   // if (data) {
   //   return (
   //     <div>
@@ -57,22 +85,16 @@ function App() {
   //     </div>
   //   );
   // }
-
   // return <p>No users</p>;
-
   // const [name, setName] = useState("Jan");
   // const [admin, setAdmin] = useState(false);
-
   // useEffect(() => {
   //   document.title = `Celebrate ${name}`;
   //   console.log(`Celebrate ${name}`);
   // }, [name]);
-
   // useEffect(() => {
-
   //   console.log(`The user is: ${admin ? "admin" : "not admin"}`);
   // }, [admin]);
-
   // return (
   //   <section>
   //     <p>Contratulations {name}!</p>
@@ -82,9 +104,7 @@ function App() {
   //   </section>
   //)
   // return <StarRating totalStars={5} />;
-
   // const [status, setStatus] = useState("Not Delivered");
-
   // const [checked, setChecked] = useState(false);
   // return (
   //   <div>
