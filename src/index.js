@@ -13,6 +13,8 @@ function App() {
     const soundVal = sound.current.value;
     const colorVal = color.current.value;
     alert(`${soundVal} sounds like ${colorVal}`);
+    sound.current.value = "";
+    color.current.value = "";
   };
 
   return (
