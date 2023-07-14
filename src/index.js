@@ -1,42 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import { useInput } from "./useinput";
+import { useFetch } from "./usefetch";
 
-function App() {
-  const [titleProps, resetTitle] = useInput("");
-  const [colorProps, resetColor] = useState("#000000");
-
-  const submit = (e) => {
-    e.preventDefault();
-    alert(`${titleProps.value} sounds like ${colorProps.value}`);
-    resetTitle();
-    resetColor();
-  };
-
-  return (
-    <form onSubmit={submit}>
-      <input
-        type="text"
-        {...titleProps}
-        placeholder="Sound..."
-      />
-      <input
-        type="color"
-        {...colorProps}
-      />
-      <button>ADD</button>
-    </form>
+function App({ login }) {
+  const { loading, data, error } = useFetch(
+    `https://api.github.com/users/${login}`
   );
+  if (loading) return <h1>loading...</h1>;
+  if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>;
+  return (
+    <div>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <img src={data.avatar_url} alt={data.login} />
+      <div>
+        <h1>{data.login}</h1>
+        {data.name && <p>{data.name}</p>}
+        {data.location && <p>{data.location}</p>}
+      </div>
+    </div>
+    
+  );
+
 }
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App login="adamchurnside" />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
